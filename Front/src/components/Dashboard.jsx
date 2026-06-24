@@ -2,35 +2,23 @@ function Dashboard() {
 
   return (
     <>
-
       <header>
-
-        {/* Parte de cima dashboard */}
         <h1 className='text-cyan-300 text-center text-blue-400'>
           DASHBOARD DO BIBLIOTECÁRIO
         </h1>
-
         <br />
-
       </header>
-
       {/* Parte esquerda (Acervo de livros) */}
       <article className='bg-blue-950'>
-
         {/* Div pai que comanda tanto o acervo quanto a quantidade */}
         <div className='bg-blue-950 border-t-4 border-green-500 p-6'>
-
           <h3 className='text-white'>
             Acervo de livros
           </h3>
-
           <p className='text-green-300 font-semibold'>
             84 livros cadastrados
           </p>
-
         </div>
-
-        {/* Tabela */}
         ...
       </article>
 

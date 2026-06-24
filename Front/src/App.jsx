@@ -1,31 +1,57 @@
 import { useState } from 'react'
+
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import NovoLivro from "./components/NovoLivro";
+
 import Login from "./components/Login";
+import CadastroUsuario from "./components/CadastroUsuario";
 
 function App() {
+
   const [logado, setLogado] = useState(
     !!localStorage.getItem("token")
   );
-  const [paginaAtual, setPaginaAtual] = useState('dashboard');
+
+  const [telaAuth, setTelaAuth] = useState(
+    "cadastro"
+  );
+
+  const [paginaAtual, setPaginaAtual] =
+    useState("dashboard");
 
   function renderizarPagina() {
 
     switch (paginaAtual) {
 
-      case 'novoLivro':
+      case "novoLivro":
         return <NovoLivro />;
 
-      case 'dashboard':
+      case "dashboard":
       default:
         return <Dashboard />;
     }
   }
 
-  // Se não estiver logado, mostra só a tela de login
+  // Área de autenticação
   if (!logado) {
-    return <Login setLogado={setLogado} />;
+
+    if (telaAuth === "cadastro") {
+
+      return (
+        <CadastroUsuario
+          irParaLogin={() =>
+            setTelaAuth("login")
+          }
+        />
+      );
+    }
+
+    return (
+      <Login
+        setLogado={setLogado}
+      />
+    );
   }
 
   return (
@@ -38,12 +64,12 @@ function App() {
         setPaginaAtual={setPaginaAtual}
       />
 
-      <section className='flex-1 p-10'>
+      <section className="flex-1 p-10">
 
-        {/* Conteúdo principal da página */}
+        {/* Conteúdo principal */}
         {renderizarPagina()}
 
-        <footer className='text-center text-black'>
+        <footer className="text-center text-black">
           {/* Rodapé futuro */}
         </footer>
 
