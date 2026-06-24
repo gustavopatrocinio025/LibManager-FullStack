@@ -2,23 +2,30 @@ import { useState } from 'react'
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
 import NovoLivro from "./components/NovoLivro";
+import Login from "./components/Login";
 
 function App() {
-
-  // Controla qual tela será exibida
-  const [paginaAtual, setPaginaAtual] = useState('dashboard')
+  const [logado, setLogado] = useState(
+    !!localStorage.getItem("token")
+  );
+  const [paginaAtual, setPaginaAtual] = useState('dashboard');
 
   function renderizarPagina() {
 
     switch (paginaAtual) {
 
       case 'novoLivro':
-        return <NovoLivro />
+        return <NovoLivro />;
 
       case 'dashboard':
       default:
-        return <Dashboard />
+        return <Dashboard />;
     }
+  }
+
+  // Se não estiver logado, mostra só a tela de login
+  if (!logado) {
+    return <Login setLogado={setLogado} />;
   }
 
   return (
@@ -44,9 +51,9 @@ function App() {
 
     </main>
 
-  )
+  );
 }
 
-export default App
+export default App;
 
 // OBS: O componente SEMPRE começa com letra maiúscula.
