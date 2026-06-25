@@ -5,7 +5,6 @@ const usuarioModel = require('../models/usuarioModel');
 async function cadastro(req, res) {
 
     try {
-
         const { nome, email, senha } = req.body;
 
         if (!nome || !email || !senha) {

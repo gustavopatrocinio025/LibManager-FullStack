@@ -1,10 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
 
-function CadastroUsuario() {
+function CadastroUsuario({ irParaLogin }) {
+
   const [nome, setNome] = useState("");
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
+
   async function cadastrarUsuario(e) {
 
     e.preventDefault();
@@ -13,128 +15,141 @@ function CadastroUsuario() {
 
       const resposta = await axios.post(
         "http://localhost:3000/cadastro",
-
         {
-          nome, email, senha
+          nome,
+          email,
+          senha
         }
-
       );
 
       alert(
-        resposta.data.mensagem
+        resposta.data.mensagem ||
+        "Usuário cadastrado com sucesso!"
       );
 
       setNome("");
       setEmail("");
       setSenha("");
 
+      // Vai para tela de login
+      irParaLogin();
+
     } catch (erro) {
 
-     console.log(erro);
+      console.error(erro);
 
-alert(
-  JSON.stringify(
-    erro.response?.data || erro.message
-  )
-);
+      alert(
+        erro.response?.data?.erro ||
+        erro.message ||
+        "Erro ao cadastrar usuário"
+      );
     }
   }
 
   return (
 
-   <div className="w-full min-h-screen bg-[#030712] flex items-center justify-center p-4">
+    <div className="w-full min-h-screen bg-[#030712] flex flex-col items-center justify-center p-4">
 
-      <h2 className="text-4xl text-cyan-400 text-center mb-8"> Cadastrar novo leitor </h2>
+      <div className="bg-[#081224] p-8 rounded-lg shadow-lg w-full max-w-md">
 
-      <form
-        onSubmit={cadastrarUsuario}
-        className="space-y-5"
-      >
+        <h2 className="text-4xl text-cyan-400 text-center mb-8">
+          Cadastrar Usuário
+        </h2>
 
-        <div>
+        <form
+          onSubmit={cadastrarUsuario}
+          className="space-y-5"
+        >
 
-          <label className="block text-cyan-400 mb-2">
-            Nome Completo:
-          </label>
+          <div>
 
-          <input
-            type="text"
-            value={nome}
-            onChange={(e) =>
-              setNome(e.target.value)
-            }
-            className="w-full bg-slate-800 text-white p-3 rounded"
-            required
-          />
+            <label className="block text-cyan-400 mb-2">
+              Nome Completo:
+            </label>
 
-        </div>
+            <input
+              type="text"
+              value={nome}
+              onChange={(e) =>
+                setNome(e.target.value)
+              }
+              className="w-full bg-slate-800 text-white p-3 rounded focus:outline-none"
+              required
+            />
 
-        <div>
+          </div>
 
-          <label className="block text-cyan-400 mb-2">
+          <div>
 
-            E-mail:
+            <label className="block text-cyan-400 mb-2">
+              E-mail:
+            </label>
 
-          </label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) =>
+                setEmail(e.target.value)
+              }
+              className="w-full bg-slate-800 text-white p-3 rounded focus:outline-none"
+              required
+            />
 
-          <input
-            type="email"
-            value={email}
-            onChange={(e) =>
-              setEmail(e.target.value)
-            }
-            className="w-full bg-slate-800 text-white p-3 rounded"
-            required
-          />
+          </div>
 
-        </div>
+          <div>
 
-        <div>
+            <label className="block text-cyan-400 mb-2">
+              Senha:
+            </label>
 
-          <label className="block text-cyan-400 mb-2">
+            <input
+              type="password"
+              value={senha}
+              onChange={(e) =>
+                setSenha(e.target.value)
+              }
+              className="w-full bg-slate-800 text-white p-3 rounded focus:outline-none"
+              required
+            />
 
-            Senha:
+          </div>
 
-          </label>
+          <div className="flex gap-4">
 
-          <input
-            type="password"
-            value={senha}
-            onChange={(e) =>
-              setSenha(e.target.value)
-            }
-            className="w-full bg-slate-800 text-white p-3 rounded"
-            required
-          />
+            <button
+              type="submit"
+              className="bg-cyan-500 text-black font-bold px-8 py-3 rounded flex-1"
+            >
+              Salvar Usuário
+            </button>
 
-        </div>
+            <button
+              type="button"
+              onClick={() => {
 
-        <div className="flex gap-4">
+                setNome("");
+                setEmail("");
+                setSenha("");
 
-          <button
-            type="submit"
-            className="bg-cyan-500 text-black font-bold px-8 py-3 rounded flex-1"
-          >
-            Salvar Usuário
-          </button>
+              }}
+              className="bg-slate-600 text-white px-8 py-3 rounded flex-1"
+            >
+              Limpar
+            </button>
 
-          <button
-            type="button"
-            onClick={() => {
+          </div>
 
-              setNome("");
-              setEmail("");
-              setSenha("");
+        </form>
 
-            }}
-            className="bg-slate-600 text-white px-8 py-3 rounded flex-1"
-          >
-            Limpar
-          </button>
+        <p
+          className="text-center text-cyan-400 mt-6 cursor-pointer hover:underline"
+          onClick={irParaLogin}
+        >
+          Já possui conta? Fazer Login
+        </p>
 
-        </div>
-
-      </form>
+      </div>
 
     </div>
 

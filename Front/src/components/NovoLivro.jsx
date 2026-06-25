@@ -46,10 +46,14 @@ function NovoLivro() {
 
       console.error(erro);
 
-      alert(
-        erro.response?.data?.erro ||
-        "Erro ao cadastrar o livro, tente novamente"
-      );
+      console.log(erro.response);
+
+alert(
+  JSON.stringify(
+    erro.response?.data ||
+    erro.message
+  )
+);
     }
   }
 

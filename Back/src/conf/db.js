@@ -10,4 +10,26 @@ const pool = mysql.createPool({
 
 });
 
+(async () => {
+
+    try {
+        const conexao =
+            await pool.getConnection();
+        console.log(
+            "Banco de dados conectado com exito"
+        );
+
+        conexao.release();
+
+    } catch (erro) {
+
+        console.log(
+            " Houve um erro ao conectar com o banco de dados:"
+        );
+
+        console.log(erro.message);
+    }
+
+})();
+
 module.exports = pool;

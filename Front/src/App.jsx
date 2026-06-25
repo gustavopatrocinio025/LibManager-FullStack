@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
 import Navbar from "./components/Navbar";
 import Dashboard from "./components/Dashboard";
@@ -9,16 +9,16 @@ import CadastroUsuario from "./components/CadastroUsuario";
 
 function App() {
 
+  // Verifica se existe token salvo
   const [logado, setLogado] = useState(
     !!localStorage.getItem("token")
   );
 
-  const [telaAuth, setTelaAuth] = useState(
-    "cadastro"
-  );
+  // Controla Login ou Cadastro
+  const [telaAuth, setTelaAuth] = useState("cadastro");
 
-  const [paginaAtual, setPaginaAtual] =
-    useState("dashboard");
+  // Controla Dashboard ou Novo Livro
+  const [paginaAtual, setPaginaAtual] = useState("dashboard");
 
   function renderizarPagina() {
 
@@ -33,40 +33,39 @@ function App() {
     }
   }
 
-  // Área de autenticação
+  // Se NÃO estiver logado
   if (!logado) {
 
-    if (telaAuth === "cadastro") {
+    return telaAuth === "cadastro" ? (
 
-      return (
-        <CadastroUsuario
-          irParaLogin={() =>
-            setTelaAuth("login")
-          }
-        />
-      );
-    }
+      <CadastroUsuario
+        irParaLogin={() => setTelaAuth("login")}
+      />
 
-    return (
+    ) : (
+
       <Login
         setLogado={setLogado}
+        irParaCadastro={() => setTelaAuth("cadastro")}
       />
+
     );
   }
 
+  // Se estiver logado
   return (
 
     <main className="bg-gray-950 flex min-h-screen">
 
-      {/* Barra lateral de navegação */}
+      {/* Barra lateral */}
       <Navbar
         paginaAtual={paginaAtual}
         setPaginaAtual={setPaginaAtual}
       />
 
+      {/* Conteúdo */}
       <section className="flex-1 p-10">
 
-        {/* Conteúdo principal */}
         {renderizarPagina()}
 
         <footer className="text-center text-black">
